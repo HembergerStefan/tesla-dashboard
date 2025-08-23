@@ -3,11 +3,6 @@ set -e
 
 mkdir -p tesla-proxy/config frontend/public/.well-known/appspecific
 
-openssl ecparam -name prime256v1 -genkey -noout \
-  -out tesla-proxy/config/private-key.pem
-openssl ec -in tesla-proxy/config/private-key.pem -pubout \
-  -out frontend/public/.well-known/appspecific/com.tesla.3p.public-key.pem
-
 openssl req -x509 -newkey rsa:2048 -nodes -days 365 \
   -keyout tesla-proxy/config/tls-key.pem \
   -out tesla-proxy/config/tls-cert.pem \

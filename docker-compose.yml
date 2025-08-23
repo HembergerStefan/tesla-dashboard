@@ -5,7 +5,7 @@ services:
       dockerfile: backend/Dockerfile
     restart: unless-stopped
     env_file:
-      - backend/.env.prod
+      - backend/.env
     depends_on:
       - redis
       - tesla-proxy

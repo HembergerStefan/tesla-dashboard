@@ -1,0 +1,6 @@
+/.idea/
+/tesla-proxy/config/private-key.pem
+/tesla-proxy/config/tls-cert.pem
+/tesla-proxy/config/tls-key.pem
+
+.DS_Store

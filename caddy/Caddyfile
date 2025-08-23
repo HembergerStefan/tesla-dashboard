@@ -1,0 +1,11 @@
+stefan-hemberger.at {
+  encode gzip
+
+  handle /api/* {
+    reverse_proxy backend:5005
+  }
+
+  handle {
+    reverse_proxy frontend:3000
+  }
+}

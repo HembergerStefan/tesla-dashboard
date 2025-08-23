@@ -1,0 +1,63 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    env_file:
+      - backend/.env.prod
+    depends_on:
+      - redis
+      - tesla-proxy
+    networks: [internal]
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks: [internal]
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    networks: [internal]
+
+  tesla-proxy:
+    image: tesla/vehicle-command:latest
+    restart: unless-stopped
+    command: >
+      --tls-key /app/config/tls-key.pem
+      --cert /app/config/tls-cert.pem
+      --key-file /app/config/private-key.pem
+      --host 0.0.0.0
+      --port 4433
+      --verbose
+    volumes:
+      - ./tesla-proxy/config:/app/config:ro
+    networks: [internal]
+
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - frontend
+      - backend
+    networks: [internal]
+
+networks:
+  internal:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:

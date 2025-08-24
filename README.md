@@ -4,6 +4,8 @@
 
 A modern, fully self-hosted platform for secure remote vehicle operations. Running on your own infrastructure, it separates the public edge from internal services and validates actions with authenticated, signed requests, balancing usability with strong security guarantees. The result is a production-ready system that’s easy to deploy, maintain and extend.
 
+---
+
 ## 🛠️ Tech Stack
 
 - **Frontend:** [Next.js](https://nextjs.org/)
@@ -53,65 +55,45 @@ All components run in isolated containers via **Docker Compose**, with **Caddy**
 > **Get your Tesla Dashboard up and running.**  
 > Just follow the simple steps below to deploy your own Tesla Dashboard in no time.
 
----
-
-#### 1. 🏷️ **Obtain a Domain**
+### 1. 🏷️ **Obtain a Domain**
 Register a domain and configure its DNS to point to your router's public IP address.
 
----
-
-#### 2. 🔗 **Configure Port Forwarding**
+### 2. 🔗 **Configure Port Forwarding**
 Set up port forwarding on your router to forward ports **80** and **443** to your local machine.
 
----
-
-#### 3. 🚗 **Register Your Tesla Application**
+### 3. 🚗 **Register Your Tesla Application**
 Follow the instructions at [Tesla Fleet API Getting Started](https://developer.tesla.com/docs/fleet-api/getting-started/what-is-fleet-api) to create your application.
 
----
-
-#### 4. 🔑 **Generate Keys and Certificates**
+### 4. 🔑 **Generate Keys and Certificates**
 Run the initialization script:
 ```bash
 sh init.sh
 ```
 
----
-
-#### 5. 📂 **Place Keys**
+### 5. 📂 **Place Keys**
 - Move the generated `private-key.pem` to `tesla-proxy/config`
 - Move `public-key.pem` to `frontend/public/.well-known/appspecific` and rename it to `com.tesla.3p.public-key.pem`
 
----
-
-#### 6. ⚙️ **Configure Backend Environment**
+### 6. ⚙️ **Configure Backend Environment**
 Rename `backend/.env.example` to `backend/.env` and fill in your application details from the Tesla Developer Dashboard ([link](https://developer.tesla.com/de_AT/dashboard)).
 
----
-
-#### 7. 📝 **Update the Caddyfile Configuration**
+### 7. 📝 **Update the Caddyfile Configuration**
 Open `caddy/Caddyfile` and replace the placeholder domain (`stefan-hemberger.at`) with your actual domain.
 
----
-
-#### 8. 🏗️ **Build and Start the Containers**
+### 8. 🏗️ **Build and Start the Containers**
 Start the stack:
 ```bash
 docker compose up -d --build
 ```
 
----
-
-#### 9. 📱 **Enroll Your App Key with Your Vehicle**
+### 9. 📱 **Enroll Your App Key with Your Vehicle**
 On your phone, open:
 ```
 https://tesla.com/_ak/<YOUR-DOMAIN>?vin=<YOUR_VIN>
 ```
 Follow the pairing instructions to enable vehicle commands from your domain.
 
----
-
-#### 10. 🚀 **Access and Enjoy**
+### 10. 🚀 **Access and Enjoy**
 Your Tesla Dashboard is now ready. Access it via:
 ```
 https://<YOUR-DOMAIN>/

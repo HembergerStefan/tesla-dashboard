@@ -75,7 +75,7 @@ sh init.sh
 - Move `public-key.pem` to `frontend/public/.well-known/appspecific` and rename it to `com.tesla.3p.public-key.pem`
 
 ### 6. ⚙️ **Configure Backend Environment**
-Rename `backend/.env.example` to `backend/.env` and fill in your application details from the Tesla Developer Dashboard ([link](https://developer.tesla.com/de_AT/dashboard)).
+Rename `backend/.env.example` to `backend/.env` and fill in your application details from the [Tesla Developer Dashboard](https://developer.tesla.com/de_AT/dashboard).
 
 ### 7. 📝 **Update the Caddyfile Configuration**
 Open `caddy/Caddyfile` and replace the placeholder domain (`stefan-hemberger.at`) with your actual domain.

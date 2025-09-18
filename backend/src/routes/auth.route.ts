@@ -55,8 +55,22 @@ export default async function authRoutes(app: FastifyInstance) {
         }
         try {
             const token = await TeslaClient.exchangeCodeForToken(code);
-            await updateSessionToken(sessionId, token.access_token);
-            handleSuccess(reply);
+            const client = new TeslaClient(process.env.TESLA_VEHICLE_ID!, token.access_token);
+            // check if the vehicle belongs to the account
+            const vehicleList = await client.getVehicleList();
+            let validUser = false;
+            for (let vehicleEntry of vehicleList.response) {
+                if (vehicleEntry.vin === process.env.TESLA_VEHICLE_ID!) {
+                    validUser = true;
+                    break;
+                }
+            }
+            if (validUser) {
+                await updateSessionToken(sessionId, token.access_token);
+                handleSuccess(reply);
+                return;
+            }
+            handleError(reply, "Vehicle does not belong to the user");
         } catch (err) {
             handleError(reply, "Token exchange failed", err);
         }

@@ -2,6 +2,7 @@ import {TeslaVehicleDataResponse} from "./types/tesla/teslaVehicleDataResponse";
 import {TeslaNearbyChargingSitesResponse} from "./types/tesla/teslaNearbyChargingSitesResponse";
 import {TeslaVehicleResponse} from "./types/tesla/teslaVehicleResponse";
 import {TeslaTokenExchangeResponse} from "./types/tesla/teslaTokenExchangeResponse";
+import {TeslaVehicleListResponse} from "./types/tesla/teslaVehicleListResponse";
 
 export class TeslaClient {
     constructor(private vehicleId: string, private jwt: string) {
@@ -21,6 +22,10 @@ export class TeslaClient {
             throw new Error(`Tesla API error: ${res.statusText}`);
         }
         return res.json();
+    }
+
+    async getVehicleList(): Promise<TeslaVehicleListResponse> {
+        return this.callTesla<TeslaVehicleListResponse>(`/vehicles`);
     }
 
     async getVehicleData(): Promise<TeslaVehicleDataResponse> {
